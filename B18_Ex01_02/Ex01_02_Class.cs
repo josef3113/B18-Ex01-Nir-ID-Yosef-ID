@@ -1,91 +1,41 @@
 ﻿using System;
-
 using System.Text;
-
 
 namespace B18_Ex01_02
 {
     public class Ex01_02_Class
     {
-        public static void Ex01_02_Start()
+        public static void Ex01_02_Start() // Ex01_02_Start
         {
-            Console.WriteLine("Hey Ex01_02 !");
-            PrintSendTimeStar(5);
-
-            int inputSizeNumber;
-            bool quit = false;
-           // string inputSize = Console.ReadLine();
-            while (!quit) {
-                Console.WriteLine("Enter number Please");
-                string inputSize = Console.ReadLine();
-                if (int.TryParse(inputSize, out inputSizeNumber))
-                {
-                    quit = true;
-                }
-                else {
-                    Console.WriteLine("Worng Input!! Try again.");
-                }
-            }
-
+            Console.WriteLine("Hey, Ex01_02");
+            string sandTime = SandClock(); // default input is 5.
+            Console.WriteLine(sandTime);
+            
         }
 
-        public static void PrintSendTimeStar(int i_SizeOfSendTime) {
-            Console.WriteLine("Const Send Time");
-            string sendTime = String.Format(
-@"
-*****
- ***
-  *
- ***
-*****
-
-End const time send");
-            int size = 5;
-
-            StringBuilder buildSendTimeStar = new StringBuilder(size*size);
-            int sizeToTrack = size;
-            int midle = size / 2;
-            while (sizeToTrack > midle) {
-                for (int i = 0; i < sizeToTrack; i++)
-                {
-                    char chary;
-                    chary = sizeToTrack+i < size  ? ' ' : '*' ;
-                    buildSendTimeStar.Append(chary);
-
-                }
-                buildSendTimeStar.AppendFormat("A{0}",Environment.NewLine);                                
-                sizeToTrack--;
-
-            }
-
-            Console.WriteLine(buildSendTimeStar.ToString());
-            Console.WriteLine("End!");
-            sizeToTrack = 0;
-            while (sizeToTrack < midle)
+        public static string SandClock(ushort i_ClockHight = 5)
+        {// i add 1 for even input.
+            StringBuilder srtingToPrint = new StringBuilder(i_ClockHight * i_ClockHight);
+            ushort space = (ushort)(i_ClockHight / 2) , currentSize = 3;
+            srtingToPrint.Append(MakeLine(1, space));
+            while (space > 0)
             {
-                for (int i = 0; i < midle+2+sizeToTrack; i++)
-                {
-                    char chary;
-                    chary = sizeToTrack + 1 + i < midle ? ' ' : '*';
-                    buildSendTimeStar.Append(chary);
-
-                }
-                buildSendTimeStar.AppendFormat("Z{0}", Environment.NewLine);
-                sizeToTrack++;
+                space--;
+                string lineToAdd = MakeLine(currentSize, space);
+                srtingToPrint.Insert(0, lineToAdd);
+                srtingToPrint.Append(lineToAdd);
+                currentSize += 2;
             }
-            
-            Console.WriteLine(sendTime);
-            //buildSendTimeStar;
-            Console.WriteLine(buildSendTimeStar.ToString());
-            Console.WriteLine("End!");
 
-            // first loop *****
-            //             ***
+            return srtingToPrint.ToString();
+        }
 
-            // secound loop ***
-            //             *****
-
-
+        static string MakeLine(ushort i_StarLength, ushort i_SpaceCount)
+        {
+            StringBuilder lineCurrent = new StringBuilder(i_StarLength + i_SpaceCount);
+            lineCurrent.Append(' ', i_SpaceCount);
+            lineCurrent.Append('*', i_StarLength);
+            return string.Format("{0}{1}", lineCurrent, Environment.NewLine);
         }
     }
 }

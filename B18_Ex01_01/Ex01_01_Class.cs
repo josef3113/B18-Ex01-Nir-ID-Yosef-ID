@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 
 namespace B18_Ex01_01
 {
@@ -6,72 +7,84 @@ namespace B18_Ex01_01
     {
         public static void Ex01_01_Start()
         {
-            Console.WriteLine("Hey Ex01_01 !");
+            Console.WriteLine("Hey, Ex01_01 !");
             // sequence ?! 
-            int[] binaryNumbers = new int[3];
-            int answer = 1;
-
-            if (answer == 0) {
-                return;
-            }
-            else if (answer == 1)
+            Console.WriteLine("Insert 0 for insert hight, insert everything else for examples.");
+            string answerInput = Console.ReadLine();
+            bool answer = byte.TryParse(answerInput, out byte isZero) && isZero == 0 ? true : false;
+            if (answer)
             {
-                string[] chosenNumber;
-                if (answer == 1)
-                {
-                    string[] binaryArrayString = { "011010000", "110100101", "110011000" }; // 12 of 1's.
-                    chosenNumber = binaryArrayString;
-                }
-                else if (answer == 2)
-                {
-                    string[] Eaxmple2 = { "000100110", "000100000", "000101000" };
-                    chosenNumber = Eaxmple2;
-                }
-                else
-                {
-                    string[] Eaxmple3 = { "010111101", ",011001101", "001101001" };
-                    chosenNumber = Eaxmple3;
-                }
-
-                Console.WriteLine();
-                binaryNumbers = InsertExampleArrays(chosenNumber);
-                                
-                                                                                
+                UserInput();
             }
-            else if (answer == 2)
+            else
             {
+                ExamplesData();
+            }
+        }
 
-
-                Console.WriteLine(
-@"Please Enter 3 binary numbers
-Any number need to be untill 9 digits
-After each number press 'enter' .");
-                binaryNumbers = BinaryNumbersInput();
+        public static void StaticsNumbers(string[] i_NumbersInString)
+        {
+            StringBuilder stringBuilder = new StringBuilder("String Numbers are -> ", 100);
+            int[] binaryNumbers = new int[i_NumbersInString.Length];
+            for (int i = 0; i < i_NumbersInString.Length; i++)
+            {
+                stringBuilder.Append(string.Format(", {0}", i_NumbersInString[i]));
+                binaryNumbers[i] = int.Parse(i_NumbersInString[i]);
             }
 
-            PrintIntArray(binaryNumbers);
-            Console.WriteLine("Numbers in decimal");
+            Console.WriteLine(stringBuilder);
             int[] decimalNumbers = ConvertToDecimal(binaryNumbers);
-            PrintIntArray(decimalNumbers);
-
+            Console.WriteLine(IntArrayToString(decimalNumbers));
 
             Console.WriteLine("Statcstic on the numbers:");
             Console.WriteLine("Average number is -> {0:0.00}", AverageNubmers(decimalNumbers));
-            // Console.WriteLine(" SeriesDescendingCounterRecrursive with 421 == {0} " +
-            //    " SeriesDescendingCounterRecrursive with 208 == {1}", SeriesDescendingCounterRecrursive(421), SeriesDescendingCounterRecrursive(208));
-
             Console.WriteLine("{0} Numbers are Series Descending .", SeriesDescendingCounterArray(decimalNumbers));
             Console.WriteLine("{0} Numbers are Power of 2 .", CountPow2Numbers(decimalNumbers));
-            //int numberToCheck = 1001110;
-            //Console.WriteLine("numberToCheck = {0} , 1's == {1}", numberToCheck, CountOnesDigitsInNumber(numberToCheck));
-
-            byte totalDigits = 9 * 3, totalOnesDig = CountOnesDigits(binaryNumbers); // 12 of 1's.
-            Console.WriteLine("There is average {0} of 1's and {1} of 0's . Total Digits {2}", totalOnesDig, (totalDigits - totalOnesDig), totalDigits);
+            byte totalDigits = Convert.ToByte(binaryNumbers.Length * 9), totalOnesDig = CountOnesDigits(binaryNumbers);
+            Console.WriteLine("There are {0} of 1's and {1} of 0's . Total Digits {2}"
+                              , totalOnesDig, (totalDigits - totalOnesDig), totalDigits);
 
         }
 
-        public static void  Menu () { }  // Do Really goo Menu , An FiX! all menu promlemes and Order ALL GOOD.
+        public static void UserInput()
+        {
+            byte counter3Input = 3, i = 0;
+            string[] binaryNumbersString = new string[counter3Input];
+            Console.WriteLine(
+@"Please Enter 3 binary numbers
+Any number need to be untill 9 digits
+After each number press 'enter' .");
+            while (i < counter3Input)
+            {
+                Console.WriteLine("Insert binary number (count numbers is {0})", i + 1);
+                string binaryInput = Console.ReadLine();
+                if (CheckStringToBinary(binaryInput))
+                {
+                    binaryNumbersString[i++] = binaryInput;
+                }
+                else
+                {
+                    Console.WriteLine("Wrong input . Try again.");
+                }
+            }
 
+            StaticsNumbers(binaryNumbersString);
+        }
+
+        public static void ExamplesData()
+        {
+            string[][] ExamplesStringsBinNumbers = new string[][]
+                { new string[] { "011010000", "110100101", "110011000" },
+                  new string[] { "000100110", "000100000", "000101000" },
+                  new string[] { "010111101", "011001101", "001101001" } };
+
+            for (int i = 0; i < ExamplesStringsBinNumbers.Length; i++)
+            {
+                StaticsNumbers(ExamplesStringsBinNumbers[i]);
+            }
+
+        }
+        
         public static byte SeriesDescendingCounterArray(int[] i_NumbersAry)
         {
             byte counter = 0;
@@ -101,7 +114,6 @@ After each number press 'enter' .");
             }
 
             return SeriesDescendingCounterRecrursive(i_Number);
-
         }
 
         public static byte CountPow2Numbers(int[] i_NumbersAry)
@@ -109,21 +121,26 @@ After each number press 'enter' .");
             byte counterPow2Nums = 0;
             for (int i = 0; i < i_NumbersAry.Length; i++)
             {
-                float log2Result = 0;
-                if (i_NumbersAry[i] != 0)
+
+                if (IsPowOf2(i_NumbersAry[i]) && i_NumbersAry[i] != 0)
                 {
-                    log2Result = (float)Math.Log(i_NumbersAry[i], 2);
-                    if (log2Result == Math.Floor(log2Result))
-                    {
-                        counterPow2Nums++;
-                    }
-
+                    counterPow2Nums++;
                 }
-
-
             }
 
             return counterPow2Nums;
+        }
+
+        public static bool IsPowOf2(int i_Number)
+        {
+            bool answer = false;
+            float log2Number = (float)Math.Log(i_Number, 2);
+            if (log2Number == Math.Floor(log2Number)) // if will be mod so its not pow of 2;
+            {
+                answer = true;
+            }
+
+            return answer;
         }
 
         public static byte CountOnesDigits(int[] i_BinaryNumbers)
@@ -164,43 +181,15 @@ After each number press 'enter' .");
             return totalAverage;
         }
 
-        public static void PrintIntArray(int[] i_AryToPrint)
+        public static string IntArrayToString(int[] i_AryToString)
         {
-            for (int i = 0; i < i_AryToPrint.Length; i++)
+            StringBuilder stringBuilder = new StringBuilder("Numbers are -> ", 50);
+            for (int i = 0; i < i_AryToString.Length; i++)
             {
-                Console.WriteLine("Array[{0}]  = {1}", i, i_AryToPrint[i]);
+                stringBuilder.AppendFormat(", {0}", i_AryToString[i]);
             }
-        }
 
-        public static int[] BinaryNumbersInput()
-        {
-            int[] binaryNumbers = new int[3];
-            int numbersCounter = 0;
-            // StringBuilder numberInput = new StringBuilder("",9);
-            // string[] checkData = { "011010000", "110100101", "110011000" }; // 12 of 1's.
-            // string[] checkData = { "000100110", "000100000", "000101000" }; // 6 of 1's .
-            string[] checkData = { "010111101", ",011001101", "001101001" };
-
-            do
-            {
-                Console.Write("Insert now The {0} number: ", numbersCounter + 1);
-                // string numberInput = Console.ReadLine();
-                string numberInput = checkData[numbersCounter];
-
-                if (CheckStringToBinary(numberInput))
-                {
-                    binaryNumbers[numbersCounter++] = int.Parse(numberInput);
-                }
-                else
-                {
-                    Console.WriteLine("Wrong input, please try again.");
-                }
-
-
-            }
-            while (numbersCounter < 3);
-
-            return binaryNumbers;
+            return stringBuilder.ToString();
         }
 
         public static bool CheckStringToBinary(string i_NumberInput)
@@ -227,7 +216,7 @@ After each number press 'enter' .");
 
         public static int[] ConvertToDecimal(int[] i_BinaryNumbers)
         {
-            int[] decimalNumbers = new int[3];
+            int[] decimalNumbers = new int[i_BinaryNumbers.Length];
             const int baseNumber = 2;
 
             for (int i = 0; i < i_BinaryNumbers.Length; i++)
@@ -247,9 +236,10 @@ After each number press 'enter' .");
             return decimalNumbers;
         }
 
-        public static int[] InsertExampleArrays(string[] i_BinaryArray) {
-            int firstNumber = int.Parse(i_BinaryArray[0]) , secoundNumber = int.Parse(i_BinaryArray[1]), thirdNumber = int.Parse(i_BinaryArray[2]);
-            int[] numbersAry = { firstNumber , secoundNumber, thirdNumber };
+        public static int[] InsertExampleArrays(string[] i_BinaryArray)
+        {
+            int firstNumber = int.Parse(i_BinaryArray[0]), secoundNumber = int.Parse(i_BinaryArray[1]), thirdNumber = int.Parse(i_BinaryArray[2]);
+            int[] numbersAry = { firstNumber, secoundNumber, thirdNumber };
             return numbersAry;
         }
     }

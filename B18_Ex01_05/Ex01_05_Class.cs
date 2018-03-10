@@ -6,19 +6,17 @@ namespace B18_Ex01_05
     {
         public static void Ex01_05_Start()
         {
-            Console.WriteLine("Hey Ex01_05 !");
-            //int number = InputNumber();
-            int number = 73562545;
-            Console.WriteLine("Number -> {0}", number);
+            Console.WriteLine("Hey, Ex01_05 !");
+            uint number = InputNumber();                       
             Console.WriteLine("Statisc on the number:");
             Console.WriteLine("Biggest digit in number = {0}", BiggestDigit(number));
             Console.WriteLine("Smallest digit in number = {0}", SmallestDigit(number));
             Console.WriteLine("There are {0} even digit in number", EvenDigits(number));
-            Console.WriteLine("How much small digits then the last digit ({0}) , answer: {1}", number % 10, SmallThenAhdot(number));
-
+            Console.WriteLine("There are {0} digits that samllest then the last digit ({1}).", SmallThenLastDigit(number) , number % 10);
+            
         }
 
-        public static byte BiggestDigit(int i_Number)
+        public static byte BiggestDigit(uint i_Number)
         {
             byte maxDig = (byte)(i_Number % 10);
             i_Number /= 10;
@@ -31,7 +29,7 @@ namespace B18_Ex01_05
             return maxDig;
         }
 
-        public static byte SmallestDigit(int i_Number)
+        public static byte SmallestDigit(uint i_Number)
         {
             byte minDig = (byte)(i_Number % 10);
             i_Number /= 10;
@@ -44,7 +42,7 @@ namespace B18_Ex01_05
             return minDig;
         }
 
-        public static byte EvenDigits(int i_Number)
+        public static byte EvenDigits(uint i_Number)
         {
             byte counterEvenDigit = 0;
             while (i_Number != 0)
@@ -60,7 +58,7 @@ namespace B18_Ex01_05
             return counterEvenDigit;
         }
 
-        public static byte SmallThenAhdot(int i_Number) // NEED to find better name the the func . replace the 'Ahdot' !!
+        public static byte SmallThenLastDigit(uint i_Number)
         {
             byte lastDigit = (byte)(i_Number % 10) , counterSmallThenLastDig = 0;
             i_Number /= 10;
@@ -71,19 +69,21 @@ namespace B18_Ex01_05
 
                 i_Number /= 10;
             }
+
             Console.WriteLine("Last Dig -> {0} , Counter -> {1}",lastDigit,counterSmallThenLastDig);
             return counterSmallThenLastDig;
+
         }
 
-        public static int InputNumber()
+        public static uint InputNumber()
         {
-            int number = 0;
+            uint number = 0;
             bool quit = false;
             while (!quit)
             {
-                Console.Write("Please insert your number here: ");
+                Console.Write("Please insert your number here (8 Digit unsignd number) : ");
                 string inputNumber = Console.ReadLine();
-                if (int.TryParse(inputNumber, out number) && inputNumber.Length == 8)
+                if (uint.TryParse(inputNumber, out number) && inputNumber.Length == 8)
                 {
                     quit = true;
                 }
@@ -91,13 +91,9 @@ namespace B18_Ex01_05
                 {
                     Console.WriteLine("Wrong input! Try again.");
                 }
-
             }
 
             return number;
         }
-
-
-
     }
 }
