@@ -19,7 +19,7 @@ namespace B18_Ex01_04
             {
                 Console.WriteLine("String is {0} , lower letter count is -> {1}", inputString, LowerLetterCounter(inputString));
             }           
-        }/// Palindrome
+        }
                
         public static byte LowerLetterCounter(string i_StringToCheck)
         {

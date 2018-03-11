@@ -12,7 +12,7 @@ namespace B18_Ex01_00
         static public void Menu()
         {
             eChosenTask chosenTask;
-            Console.WriteLine("Welcome to Menu of B18_Ex01"); // write task name or something.
+            Console.WriteLine("Welcome to Menu of B18_Ex01");
             bool quit = false;
             string menuOpstions = string.Format(
 @"

@@ -8,8 +8,7 @@ namespace B18_Ex01_01
         public static void Ex01_01_Start()
         {
             Console.WriteLine("Hey, Ex01_01 !");
-            // sequence ?! 
-            Console.WriteLine("Insert 0 for insert hight, insert everything else for examples.");
+            Console.WriteLine("Insert 0 for insert your own numbers, insert everything else for examples data.");
             string answerInput = Console.ReadLine();
             bool answer = byte.TryParse(answerInput, out byte isZero) && isZero == 0 ? true : false;
             if (answer)
@@ -38,7 +37,7 @@ namespace B18_Ex01_01
 
             Console.WriteLine("Statcstic on the numbers:");
             Console.WriteLine("Average number is -> {0:0.00}", AverageNubmers(decimalNumbers));
-            Console.WriteLine("{0} Numbers are Series Descending .", SeriesDescendingCounterArray(decimalNumbers));
+            Console.WriteLine("{0} Numbers are sequence decreasing .", SequenceDecreasingCounterArray(decimalNumbers));
             Console.WriteLine("{0} Numbers are Power of 2 .", CountPow2Numbers(decimalNumbers));
             byte totalDigits = Convert.ToByte(binaryNumbers.Length * 9), totalOnesDig = CountOnesDigits(binaryNumbers);
             Console.WriteLine("There are {0} of 1's and {1} of 0's . Total Digits {2}"
@@ -84,13 +83,13 @@ After each number press 'enter' .");
             }
 
         }
-        
-        public static byte SeriesDescendingCounterArray(int[] i_NumbersAry)
+
+        public static byte SequenceDecreasingCounterArray(int[] i_NumbersAry)
         {
             byte counter = 0;
             for (int i = 0; i < i_NumbersAry.Length; i++)
             {
-                if (SeriesDescendingCounterRecrursive(i_NumbersAry[i]))
+                if (SequenceDecreasingCounterRecrursive(i_NumbersAry[i]))
                 {
                     counter++;
                 }
@@ -100,7 +99,7 @@ After each number press 'enter' .");
             return counter;
         }
 
-        public static bool SeriesDescendingCounterRecrursive(int i_Number)
+        public static bool SequenceDecreasingCounterRecrursive(int i_Number)
         {
             int mod10 = i_Number % 10;
             if (i_Number / 10 == 0)
@@ -113,7 +112,7 @@ After each number press 'enter' .");
                 return false;
             }
 
-            return SeriesDescendingCounterRecrursive(i_Number);
+            return SequenceDecreasingCounterRecrursive(i_Number);
         }
 
         public static byte CountPow2Numbers(int[] i_NumbersAry)
@@ -236,11 +235,5 @@ After each number press 'enter' .");
             return decimalNumbers;
         }
 
-        public static int[] InsertExampleArrays(string[] i_BinaryArray)
-        {
-            int firstNumber = int.Parse(i_BinaryArray[0]), secoundNumber = int.Parse(i_BinaryArray[1]), thirdNumber = int.Parse(i_BinaryArray[2]);
-            int[] numbersAry = { firstNumber, secoundNumber, thirdNumber };
-            return numbersAry;
-        }
     }
 }
